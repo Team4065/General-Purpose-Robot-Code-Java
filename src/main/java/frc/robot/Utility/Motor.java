@@ -68,6 +68,11 @@ public class Motor {
         }
     }
 
+    /**
+     * Sets the motor output.
+     * @param controlMode Percent output, voltage, or velocity (velocity requires feedforward to be configured)
+     * @param value The value to output. In the same units as the control mode.
+     */
     public void set(ControlMode controlMode, double value) {
         if(!m_isFeedforwardConfigured && controlMode == ControlMode.Velocity){
             controlMode = ControlMode.PercentOutput;
@@ -147,6 +152,10 @@ public class Motor {
 
     }
 
+    /**
+     * 
+     * @return RPS of motor
+     */
     public double getVelocity() {
         switch(m_motorType){
             case TalonSRX:
@@ -166,6 +175,10 @@ public class Motor {
         }
     }
 
+    /**
+     * 
+     * @return Revolutions of motor
+     */
     public double getPosition() {
         switch(m_motorType){
             case TalonSRX:
@@ -186,6 +199,11 @@ public class Motor {
         }
     }
 
+    /**
+     * 
+     * @param master Motor to mimic the voltage of. The motor will spin in the same direction.
+     * @param opposeMaster Should the voltage be inverted. If true the motor will spin in the opposite direction.
+     */
     public void follow(Motor master, boolean opposeMaster) {
         boolean isSelfCTRE = m_motorType == MotorType.TalonSRX || m_motorType == MotorType.TalonFX || m_motorType == MotorType.VictorSPX;
         boolean isMasterCTRE = master.m_motorType == MotorType.TalonSRX || master.m_motorType == MotorType.TalonFX || master.m_motorType == MotorType.VictorSPX;
@@ -226,10 +244,19 @@ public class Motor {
         }
     }
 
+    /**
+     * 
+     * @param master Motor to mimic the voltage of. The motor will spin in the same direction.
+     */
     public void follow(Motor master){
         follow(master, false);
     }
 
+    /**
+     * Inverts the direction of the motor.
+     * Does nothing if the motor is following another motor.
+     * @param isInverted 
+     */
     public void setInverted(boolean isInverted){
         if (m_motorType == MotorType.TalonSRX) {
             if(m_talonSRX.getControlMode() != com.ctre.phoenix.motorcontrol.ControlMode.Follower)
@@ -265,11 +292,22 @@ public class Motor {
         }
     }
 
+    /**
+     * Configs the motor's feedforward gains.
+     * This must be done before Velocity control mode can be used.
+     * @param kS
+     * @param kV
+     * @param kA
+     */
     public void configFeedforward(double kS, double kV, double kA){
         m_feedforward = new SimpleMotorFeedforward(kS, kV, kA);
         m_isFeedforwardConfigured = true;
     }
 
+    /**
+     * Does nothing if velocity control is used. (brakes are always on)
+     * @param state If true then the motor will apply brakes when percent out is set to 0.
+     */
     public void enableBrakeMode(boolean state){
         switch(m_motorType){
             case TalonSRX:
