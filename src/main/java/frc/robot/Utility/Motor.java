@@ -69,7 +69,7 @@ public class Motor {
     }
 
     public void set(ControlMode controlMode, double value) {
-        if(m_isFeedforwardConfigured && controlMode == ControlMode.Velocity){
+        if(!m_isFeedforwardConfigured && controlMode == ControlMode.Velocity){
             controlMode = ControlMode.PercentOutput;
             value = 0;
             System.out.println("You must configure feedforward to use Velocity control.");
