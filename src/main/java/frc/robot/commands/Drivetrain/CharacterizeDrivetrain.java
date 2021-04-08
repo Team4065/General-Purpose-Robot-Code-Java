@@ -8,6 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.DifferentialDrivetrain.ControlMode;
 
+/**
+ * To use run the command.
+ * Copy the output into desmos and use linear regression to find the variables of the equation given at 
+ * https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html
+ */
+
+
 public class CharacterizeDrivetrain extends CommandBase {
   DifferentialDrivetrain m_drivetrain;
   double m_targetVoltage = 0;

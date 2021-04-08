@@ -301,7 +301,5 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_spyTab.get("Left Target").setDouble(m_leftTarget);
     m_spyTab.get("Right Target").setDouble(m_rightTarget);
   }
-
-
-
+  
 }

@@ -9,6 +9,14 @@ import frc.robot.Utility.Gyro;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.DifferentialDrivetrain.ControlMode;
 
+/**
+ * To use run the command.
+ * Copy the output into Desmos and use regression to find the variables of the equation given at 
+ * https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html
+ * Replace voltage with the velocity given to the motors, and velocity with rotational velocity
+ * Or just plug in the numbers in Desmos and set up the equation the same way as it is done for linear movement.
+ */
+
 public class CharacterizeRotation extends CommandBase {
   DifferentialDrivetrain m_drivetrain;
   double targetVelocity = 0;
