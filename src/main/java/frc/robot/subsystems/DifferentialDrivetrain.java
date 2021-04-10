@@ -45,9 +45,17 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   protected DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
   protected double m_wheelDiameter;
-  protected double m_gearRatio;//1 rotation of wheel / spins of motor
+  protected double m_gearRatio;//1 rotation of wheel / spins of encoder
 
-  /** Creates a new DifferentialDrivetrain. */
+  /**
+   * Creates a new Differential Drivetrain
+   * @param wheelDiameter
+   * @param gearRatio 1 spin of wheel / spins of encoder
+   * @param leftMaster
+   * @param rightMaster
+   * @param leftSlaves
+   * @param rightSlaves
+   */
   public DifferentialDrivetrain(double wheelDiameter, double gearRatio, Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves) {
     m_wheelDiameter = wheelDiameter;
     m_gearRatio  = gearRatio;
