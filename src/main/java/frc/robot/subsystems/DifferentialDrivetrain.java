@@ -45,10 +45,13 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   protected DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
   protected double m_wheelDiameter;
+  protected double m_gearRatio;//1 rotation of wheel / spins of motor
 
   /** Creates a new DifferentialDrivetrain. */
-  public DifferentialDrivetrain(double wheelDiameter, Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves) {
+  public DifferentialDrivetrain(double wheelDiameter, double gearRatio, Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves) {
     m_wheelDiameter = wheelDiameter;
+    m_gearRatio  = gearRatio;
+
     m_leftMaster = leftMaster;
     m_rightMaster = rightMaster;
     m_leftSlaves = leftSlaves;
@@ -233,28 +236,28 @@ public class DifferentialDrivetrain extends SubsystemBase {
    * @return The velocity of the left side in meters per second
    */
   public double getLeftVelocity(){
-    return -m_leftMaster.getVelocity() * m_wheelDiameter * Math.PI;
+    return -m_leftMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The velocity of the right side in meters per second
    */
   public double getRightVelocity(){
-    return -m_rightMaster.getVelocity() * m_wheelDiameter * Math.PI;
+    return -m_rightMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the left side has traveled in meters.
    */
   public double getLeftPosition(){
-    return -m_leftMaster.getPosition() * m_wheelDiameter * Math.PI;
+    return -m_leftMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the right side has traveled in meters.
    */
   public double getRightPosition(){
-    return -m_rightMaster.getPosition() * m_wheelDiameter * Math.PI;
+    return -m_rightMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   public void resetEncoders(){
