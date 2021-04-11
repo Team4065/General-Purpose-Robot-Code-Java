@@ -39,6 +39,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   protected SimpleMotorFeedforward m_leftFeedforward, m_rightFeedforward;
   protected boolean m_isFeedforwardConfigured = false;
   protected ControlMode m_controlMode = ControlMode.PercentOutput;
+  protected boolean m_isInverted = false;
 
   protected SimpleMotorFeedforward m_rotationFeedforward;
   protected boolean m_isRotationFeedforwardConfigured = false;
@@ -281,6 +282,13 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
   }
 
+  public void setInversion(boolean isInverted){
+    m_leftMaster.setInverted(isInverted);
+    m_rightMaster.setInverted(isInverted);
+  }
+
+
+
   protected void makeSpy(){
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     m_spyTab.put("Left Velocity", tab.add("Left Velocity", 0).getEntry());
@@ -312,5 +320,4 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_spyTab.get("Left Target").setDouble(m_leftTarget);
     m_spyTab.get("Right Target").setDouble(m_rightTarget);
   }
-  
 }
