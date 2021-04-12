@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
  */
 public class Gyro {
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private static double pastRate = 0;
+    private static double acceleration = 0;
 
     /**
      * Returns the z-axis angle (heading) reported by the gyroscope with alterations from Constants settings.
@@ -70,5 +72,14 @@ public class Gyro {
 
     public static double getRate(){
         return Math.toDegrees(gyro.getRate()) * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+    }
+
+    public static void updateAcceleration(){
+        acceleration = (getRate() - pastRate) / (20. / 1000.);
+        pastRate = getRate();
+    }
+
+    public static double getAcceleration(){
+        return Gyro.acceleration;
     }
 }

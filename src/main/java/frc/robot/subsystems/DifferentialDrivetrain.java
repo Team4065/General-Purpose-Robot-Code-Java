@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Utility.Gyro;
 import frc.robot.Utility.Motor;
+import frc.robot.commands.FindFeedForwardGainsForVelocity;
 
 public class DifferentialDrivetrain extends SubsystemBase {
   public enum ControlMode{
@@ -48,6 +49,50 @@ public class DifferentialDrivetrain extends SubsystemBase {
   protected double m_wheelDiameter;
   protected double m_gearRatio;//1 rotation of wheel / spins of encoder
   protected boolean m_areEncodersInverted;
+
+  public FindFeedForwardGainsForVelocity findFeedForwardGainsLeft = new FindFeedForwardGainsForVelocity(this, 
+  (Double value)->{
+    setControlMode(ControlMode.Voltage);
+    setLeftTarget(value);
+    setRightTarget(value);
+  },
+  ()->{
+    return getLeftVelocity();
+  },
+  ()->{
+    return getLeftAcceleration();
+  },
+  0.01);
+
+  public FindFeedForwardGainsForVelocity findFeedForwardGainsRight = new FindFeedForwardGainsForVelocity(this, 
+  (Double value)->{
+    setControlMode(ControlMode.Voltage);
+    setLeftTarget(value);
+    setRightTarget(value);
+  },
+  ()->{
+    return getLeftVelocity();
+  },
+  ()->{
+    return getLeftAcceleration();
+  },
+  0.01);
+
+  public FindFeedForwardGainsForVelocity findFeedForwardGainsRotation = new FindFeedForwardGainsForVelocity(this, 
+  (Double value)->{
+    if(m_isFeedforwardConfigured = false)
+      System.out.println("You cannot configure rotation before configuring velocity.");
+    setControlMode(ControlMode.Velocity);
+    setLeftTarget(value);
+    setRightTarget(-value);
+  }, 
+  ()->{
+    return Gyro.getRate();
+  }, 
+  ()->{
+    return Gyro.getAcceleration();
+  },
+  0.001);
 
   /**
    * Creates a new Differential Drivetrain
@@ -346,4 +391,6 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_spyTab.get("Left Target").setDouble(m_leftTarget);
     m_spyTab.get("Right Target").setDouble(m_rightTarget);
   }
+
+
 }

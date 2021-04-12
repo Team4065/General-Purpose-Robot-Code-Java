@@ -37,7 +37,12 @@ public class FindFeedForwardGainsForVelocity extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_value = 0;
+    m_values = new Vector<Double>();
+    m_velocities = new Vector<Double>();
+    m_accelerations = new Vector<Double>();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -46,7 +51,6 @@ public class FindFeedForwardGainsForVelocity extends CommandBase {
     m_values.add(m_value);
     m_velocities.add(m_getVelocity.get());
     m_accelerations.add(m_getAcceleration.get());
-
     m_value += m_incrementSize;
   }
 
@@ -54,8 +58,16 @@ public class FindFeedForwardGainsForVelocity extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_set.accept(0.0);
+    m_value = 0;
+    
     Double[] values = Regression.findFeedForwardGainsForVelocity(m_values, m_velocities, m_accelerations);
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
     System.out.println(Arrays.toString(values));
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
   }
 
   // Returns true when the command should end.

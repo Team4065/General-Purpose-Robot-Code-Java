@@ -53,7 +53,7 @@ public class Regression {
         int possibleCombinations = (int)Math.pow(3, numberOfExplainingVariables);
 
         double intensity = 1;
-        for(int j = 0; j < 1000; ++j){
+        for(int j = 0; j < 100; ++j){
 
             int lowestCombination = 0;
             double lowestError = Double.POSITIVE_INFINITY;
@@ -70,7 +70,7 @@ public class Regression {
             }
 
             explainingVariables = Regression.addDirection(explainingVariables, Regression.getDirection(lowestCombination, intensity, numberOfExplainingVariables));
-            intensity *= 0.99;
+            intensity *= 0.9;
         }
         
         return explainingVariables;
