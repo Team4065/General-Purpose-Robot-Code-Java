@@ -6,6 +6,8 @@
 
 package frc.robot.Utility;
 
+import java.util.Vector;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -41,6 +43,18 @@ public class Motor {
     boolean m_isFeedforwardConfigured = false;
     SimpleMotorFeedforward m_feedforward;
 
+    private double m_pastVelocity = 0;
+    private double m_acceleration = 0;
+
+    private static Vector<Motor> allMotors = new Vector<Motor>();
+
+    public static void updateAcceleration(){
+        for(Motor motor : Motor.allMotors){
+            motor.m_acceleration = (motor.getVelocity() - motor.m_pastVelocity) / (20. / 1000.);
+            motor.m_pastVelocity = motor.getVelocity();
+        }
+    }
+
     public Motor(int id, MotorType motorType) {
         m_motorType = motorType;
         switch(m_motorType){
@@ -66,6 +80,8 @@ public class Motor {
                 m_canEncoder.setPosition(0);
                 break;
         }
+        
+        Motor.allMotors.add(this);
     }
 
     /**
@@ -154,6 +170,14 @@ public class Motor {
 
     /**
      * 
+     * @return RPS^2 of motor
+     */
+    public double getAcceleration(){
+        return m_acceleration;
+    }
+
+    /**
+     * 
      * @return RPS of motor
      */
     public double getVelocity() {
@@ -198,6 +222,8 @@ public class Motor {
 
         }
     }
+
+    
 
     /**
      * 

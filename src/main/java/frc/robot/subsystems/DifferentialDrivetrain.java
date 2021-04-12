@@ -242,31 +242,47 @@ public class DifferentialDrivetrain extends SubsystemBase {
   }
 
   /**
+   * 
+   * @return The acceleration of the left side in meters per second squared
+   */
+  public double getLeftAcceleration(){
+    return m_leftMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
+  }
+
+  /**
+   * 
+   * @return The acceleration of the right side in meters per second squared
+   */
+  public double getRightAcceleration(){
+    return m_rightMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
+  }
+
+  /**
    * @return The velocity of the left side in meters per second
    */
   public double getLeftVelocity(){
-    return -m_leftMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return m_leftMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The velocity of the right side in meters per second
    */
   public double getRightVelocity(){
-    return -m_rightMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return m_rightMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the left side has traveled in meters.
    */
   public double getLeftPosition(){
-    return -m_leftMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return m_leftMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the right side has traveled in meters.
    */
   public double getRightPosition(){
-    return -m_rightMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return m_rightMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   public void resetEncoders(){
