@@ -69,6 +69,9 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_leftSlaves = leftSlaves;
     m_rightSlaves = rightSlaves;
 
+    m_leftMaster.enableBrakeMode(true);
+    m_rightMaster.enableBrakeMode(true);
+
     setInversion(isInverted);
     m_areEncodersInverted = areEncodersInverted;
     
