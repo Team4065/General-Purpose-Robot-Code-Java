@@ -67,7 +67,7 @@ public class Motor {
             case TalonFX:
                 m_talonFX = new WPI_TalonFX(id);
                 m_talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-                m_talonSRX.setSelectedSensorPosition(0);
+                m_talonFX.setSelectedSensorPosition(0);
                 break;
 
             case VictorSPX:
