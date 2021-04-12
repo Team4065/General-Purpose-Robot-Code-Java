@@ -47,17 +47,20 @@ public class DifferentialDrivetrain extends SubsystemBase {
   protected DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
   protected double m_wheelDiameter;
   protected double m_gearRatio;//1 rotation of wheel / spins of encoder
+  protected boolean m_areEncodersInverted;
 
   /**
    * Creates a new Differential Drivetrain
    * @param wheelDiameter
    * @param gearRatio 1 spin of wheel / spins of encoder
+   * @param isInverted Is the direction of the drivetrain backwards?
+   * @param areEncodcersInverted Do the encoders need to be inverted to that forward reads as positive? (Inverting the direction of the drivetrain will not solve this issue.)
    * @param leftMaster
    * @param rightMaster
    * @param leftSlaves
    * @param rightSlaves
    */
-  public DifferentialDrivetrain(double wheelDiameter, double gearRatio, Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves) {
+  public DifferentialDrivetrain(double wheelDiameter, double gearRatio, boolean isInverted, boolean areEncodersInverted, Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves) {
     m_wheelDiameter = wheelDiameter;
     m_gearRatio  = gearRatio;
 
@@ -66,8 +69,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_leftSlaves = leftSlaves;
     m_rightSlaves = rightSlaves;
 
-    m_leftMaster.setInverted(false);
-    m_rightMaster.setInverted(true);
+    setInversion(isInverted);
+    m_areEncodersInverted = areEncodersInverted;
     
     m_odometry.resetPosition(new Pose2d(), new Rotation2d());
 
@@ -246,7 +249,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
    * @return The acceleration of the left side in meters per second squared
    */
   public double getLeftAcceleration(){
-    return m_leftMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_leftMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
@@ -254,35 +257,35 @@ public class DifferentialDrivetrain extends SubsystemBase {
    * @return The acceleration of the right side in meters per second squared
    */
   public double getRightAcceleration(){
-    return m_rightMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_rightMaster.getAcceleration() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The velocity of the left side in meters per second
    */
   public double getLeftVelocity(){
-    return m_leftMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_leftMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The velocity of the right side in meters per second
    */
   public double getRightVelocity(){
-    return m_rightMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_rightMaster.getVelocity() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the left side has traveled in meters.
    */
   public double getLeftPosition(){
-    return m_leftMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_leftMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   /**
    * @return The distance the right side has traveled in meters.
    */
   public double getRightPosition(){
-    return m_rightMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
+    return ((m_areEncodersInverted) ? -1 : 1) * m_rightMaster.getPosition() * m_gearRatio * m_wheelDiameter * Math.PI;
   }
 
   public void resetEncoders(){
@@ -300,7 +303,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   public void setInversion(boolean isInverted){
     m_leftMaster.setInverted(isInverted);
-    m_rightMaster.setInverted(isInverted);
+    m_rightMaster.setInverted(!isInverted);
   }
 
 
