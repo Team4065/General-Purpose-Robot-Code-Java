@@ -6,28 +6,24 @@ package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.DifferentialDrivetrain.ControlMode;
+import frc.robot.Utility.Gyro;
+import frc.robot.Utility.Motors.Motor.ControlMode;
+import frc.robot.subsystems.DifferentialDrivetrain2;
 
-public class ArcadeDrive extends CommandBase {
-  DifferentialDrivetrain m_drivetrain;
+public class ArcadeDrive2 extends CommandBase {
+  DifferentialDrivetrain2 m_drivetrain;
   Joystick m_controller;
-  double m_maxSpeed, m_maxRotation;
+  double m_maxSpeed;
+  double m_maxRotationalSpeed;
 
-  /**
-   * 
-   * @param drivetrain
-   * @param controller
-   * @param maxSpeed Meters a second
-   * @param maxRotation Degrees a second
-   */
-  public ArcadeDrive(DifferentialDrivetrain drivetrain, Joystick controller, double maxSpeed, double maxRotation) {
+  /** Creates a new ArcadeDrive2. */
+  public ArcadeDrive2(DifferentialDrivetrain2 drivetrain, Joystick controller, double maxSpeed, double maxRotationalSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
     m_controller = controller;
     m_maxSpeed = maxSpeed;
-    m_maxRotation = maxRotation;
+    m_maxRotationalSpeed = maxRotationalSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -46,19 +42,17 @@ public class ArcadeDrive extends CommandBase {
       speed = 0;
     if(Math.abs(rotation) < 0.05)
       rotation = 0;
-    
-    speed *= m_maxSpeed;
-    rotation *= m_maxRotation;
 
-    m_drivetrain.setArcadeDrive(speed, rotation);
+    speed *= m_maxSpeed;
+    rotation *= Math.toRadians(m_maxRotationalSpeed) * m_drivetrain.getTrackWidth() / 2;
+
+    m_drivetrain.setLeftTarget(speed - rotation);
+    m_drivetrain.setRightTarget(speed + rotation);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_drivetrain.setLeftTarget(0);
-    m_drivetrain.setRightTarget(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

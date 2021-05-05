@@ -8,7 +8,10 @@
 package frc.robot.Utility;
 
 import frc.robot.Constants;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
@@ -17,6 +20,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
  */
 public class Gyro {
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private static RomiGyro rGyro = new RomiGyro();
     private static Derivative acceleration = new Derivative(()->Gyro.getRate());
 
     /**
@@ -24,7 +28,10 @@ public class Gyro {
      * @return
      */
     public static double getAngle(){
-        return gyro.getAngle() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        if(RobotBase.isReal())
+            return gyro.getAngle() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        else
+            return rGyro.getAngleZ() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
     }
 
     /**
@@ -32,7 +39,11 @@ public class Gyro {
      * @return
      */
     public static double getRawAngle(){
-        return gyro.getAngle();
+        if(RobotBase.isReal())
+            return gyro.getAngle();
+        else
+            return rGyro.getAngleZ();
+
     }
 
     /**
@@ -40,7 +51,10 @@ public class Gyro {
      * @return
      */
     public static double getCompassHeading(){
-        return gyro.getCompassHeading() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        if(RobotBase.isReal())
+            return gyro.getCompassHeading() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        else
+            return Double.NaN;
     }
 
     /**
@@ -48,7 +62,8 @@ public class Gyro {
      * @return
      */
     public static void calibrate(){
-        gyro.calibrate();
+        if(RobotBase.isReal())
+            gyro.calibrate();
     }
 
     /**
@@ -58,19 +73,28 @@ public class Gyro {
      * @return
      */
     public static double getFusedHeading(){
-        return gyro.getFusedHeading();
+        if(RobotBase.isReal())
+            return gyro.getFusedHeading();
+        else
+            return rGyro.getAngleZ();
     }
 
     public static Rotation2d getRotation2d(){
-        return gyro.getRotation2d();
+        return Rotation2d.fromDegrees(Gyro.getAngle());
     }
 
     public static void reset(){
-        gyro.reset();
+        if(RobotBase.isReal())
+            gyro.reset();
+        else
+            rGyro.reset();
     }
 
     public static double getRate(){
-        return Math.toDegrees(gyro.getRate()) * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        if(RobotBase.isReal())
+            return Math.toDegrees(gyro.getRate()) * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
+        else
+            return rGyro.getRateZ() * (Constants.IS_GYRO_REVERSED ? -1.0 : 1.0);
     }
 
     public static double getAcceleration(){

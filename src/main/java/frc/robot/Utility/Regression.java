@@ -25,11 +25,15 @@ public class Regression {
 
     static private Double[] getDirection(int combinationIndex, double intensity, int digits){
         Vector<Double> tempOutput = new Vector<Double>();
-
+        double temp = combinationIndex;
         for(int i = 0; i < digits; ++i){
-            int base3 = combinationIndex % 3;
-            combinationIndex = combinationIndex / 3;
-            tempOutput.add((double)(base3 - 1) * intensity);
+            if(temp >= 1){
+                int base3 = (int)(temp % 3.0);
+                temp = (int)(temp / 3.0);
+                tempOutput.add((double)(base3 - 1) * intensity);
+            }else{
+                tempOutput.add(-intensity);
+            }   
         }
 
         Double[] output = new Double[tempOutput.size()];
@@ -41,10 +45,10 @@ public class Regression {
         double error = 0;
 
         for(int i = 0; i < independentVariablesRecording.length; ++i){
-            error += Math.pow(dependentVariableRecording[i] - func.apply(independentVariablesRecording[i], explainingVariables), 2);
+            error += Math.sqrt(Math.abs(dependentVariableRecording[i] - func.apply(independentVariablesRecording[i], explainingVariables)));
         }
 
-        return error;
+        return error / (double)independentVariablesRecording.length;
     }
 
     static public Double[] performRegression(int numberOfIndependentVariables, int numberOfExplainingVariables, BiFunction<Double[], Double[], Double> func, Double[][] independentVariablesRecording, Double[] dependentVariableRecording){
@@ -68,28 +72,29 @@ public class Regression {
                     lowestError = error;
                 }
             }
-
+            //System.out.println(lowestError);
             explainingVariables = Regression.addDirection(explainingVariables, Regression.getDirection(lowestCombination, intensity, numberOfExplainingVariables));
             intensity *= 0.9;
         }
-        
+
         return explainingVariables;
     }
 
-    static public Double[] findFeedForwardGainsForVelocity(Vector<Double> controlledVariableRecording, Vector<Double> velocityRecording, Vector<Double> accelerationRecording){
+    static public Double[] findFeedForwardGainsForVelocity(Vector<Double> controlledVariableRecording, Vector<Double> velocityRecording, double slope){
         BiFunction<Double[], Double[], Double> func = (independentVariables, explainingVariables)->{
-            return explainingVariables[0] * Math.signum(independentVariables[0]) + explainingVariables[1] * independentVariables[0] + explainingVariables[2] * independentVariables[1];
+            return explainingVariables[0] * Math.signum(independentVariables[0]) + slope * independentVariables[0];
         };
 
-        Double[][] independentVariables = new Double[velocityRecording.size()][2];
+        Double[][] independentVariables = new Double[velocityRecording.size()][1];
         for(int i = 0; i < velocityRecording.size(); ++i){
             independentVariables[i][0] = velocityRecording.elementAt(i);
-            independentVariables[i][1] = accelerationRecording.elementAt(i);
         }
         Double[] dependentVariable = new Double[velocityRecording.size()];
         controlledVariableRecording.toArray(dependentVariable);
 
-        return Regression.performRegression(2, 3, func, independentVariables, dependentVariable);
+        //FilterOutliers.filterVelocityFeedForwardMeasurements(dependentVariable, velocityRecording.toArray(new Double[velocityRecording.size()]));
+
+        return new Double[]{Regression.performRegression(1, 1, func, independentVariables, dependentVariable)[0], slope};
     }
 
 }

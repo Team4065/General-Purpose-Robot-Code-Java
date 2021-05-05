@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.HashMap;
 
-
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -35,6 +34,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   protected double m_leftTarget;
   protected double m_rightTarget;
+
   protected double m_theoreticalTrackWidth;
   protected boolean m_isTheoreticalTrackWidthConfigured = false;
   protected SimpleMotorFeedforward m_leftFeedforward, m_rightFeedforward;
@@ -80,11 +80,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   public FindFeedForwardGainsForVelocity findFeedForwardGainsRotation = new FindFeedForwardGainsForVelocity(this, 
   (Double value)->{
-    if(m_isFeedforwardConfigured = false)
+    if(m_isFeedforwardConfigured == false)
       System.out.println("You cannot configure rotation before configuring velocity.");
     setControlMode(ControlMode.Velocity);
-    setLeftTarget(value);
-    setRightTarget(-value);
+    setLeftTarget(-value);
+    setRightTarget(value);
   }, 
   ()->{
     return Gyro.getRate();
@@ -92,7 +92,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   ()->{
     return Gyro.getAcceleration();
   },
-  0.001);
+  0.00001);
 
   /**
    * Creates a new Differential Drivetrain
@@ -228,11 +228,13 @@ public class DifferentialDrivetrain extends SubsystemBase {
         acceleration = 0;
       
       double rotationVelocity = m_rotationFeedforward.calculate(rotation, acceleration);
-      setLeftTarget(speed + rotationVelocity);
-      setRightTarget(speed - rotationVelocity);
+      setLeftTarget(speed - rotationVelocity);
+      setRightTarget(speed + rotationVelocity);
     }else{
-      setLeftTarget(speed + rotation);
-      setRightTarget(speed - rotation);
+      setLeftTarget(speed - rotation);
+      setRightTarget(speed + rotation);
+      
+      
     }
   }
 

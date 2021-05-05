@@ -18,6 +18,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 /** Add your docs here. */
@@ -30,7 +32,8 @@ public class Motor {
         TalonSRX,
         TalonFX,
         VictorSPX,
-        CANSparkMax
+        CANSparkMax,
+        Spark
     };
 
     WPI_TalonSRX m_talonSRX;
@@ -38,6 +41,10 @@ public class Motor {
     WPI_VictorSPX m_victorSPX;
     CANSparkMax m_canSparkMax;
     CANEncoder m_canEncoder;
+
+
+    Spark m_spark;
+    Encoder m_encoder;
 
     MotorType m_motorType;
     boolean m_isFeedforwardConfigured = false;
@@ -68,6 +75,43 @@ public class Motor {
                 m_canSparkMax = new CANSparkMax(id, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
                 m_canEncoder = m_canSparkMax.getEncoder();
                 m_canEncoder.setPosition(0);
+                break;
+
+            case Spark:
+                m_spark = new Spark(id);
+                break;
+        }
+    }
+
+    public Motor(int id, MotorType motorType, Encoder encoder) {
+        m_motorType = motorType;
+        m_encoder = encoder;
+
+        switch(m_motorType){
+            case TalonSRX:
+                m_talonSRX = new WPI_TalonSRX(id);
+                m_talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+                m_talonSRX.setSelectedSensorPosition(0);
+                break;
+
+            case TalonFX:
+                m_talonFX = new WPI_TalonFX(id);
+                m_talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+                m_talonFX.setSelectedSensorPosition(0);
+                break;
+
+            case VictorSPX:
+                m_victorSPX = new WPI_VictorSPX(id);
+                break;
+
+            case CANSparkMax:
+                m_canSparkMax = new CANSparkMax(id, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+                m_canEncoder = m_canSparkMax.getEncoder();
+                m_canEncoder.setPosition(0);
+                break;
+
+            case Spark:
+                m_spark = new Spark(id);
                 break;
         }
     }
@@ -152,6 +196,27 @@ public class Motor {
                         break;
                 }
                 break;
+            
+            case Spark:
+                switch(controlMode){
+                    case PercentOutput:
+                        m_spark.set(value);
+                        break;
+
+                    case Voltage:
+                        m_spark.setVoltage(value);
+                        break;
+                    
+                    case Velocity:
+                        m_spark.setVoltage(m_feedforward.calculate(value, value - getVelocity()));
+                        break;
+
+                    default:
+                        m_spark.set(value);
+                        break;
+                }
+                break;
+            
         }
 
     }
@@ -177,11 +242,20 @@ public class Motor {
                 return (double) m_talonFX.getSelectedSensorVelocity() / 2048.0 * 10.0;
 
             case VictorSPX:
-                return Double.NaN;
-            
+                if (m_encoder != null)
+                    return m_encoder.getRate();
+                else
+                    return Double.NaN;
+
             case CANSparkMax:
                 return m_canEncoder.getVelocity() / 60.0;
             
+            case Spark:
+                if (m_encoder != null)
+                    return m_encoder.getRate();
+                else
+                    return Double.NaN;
+
             default:
                 return Double.NaN;
         }
@@ -200,10 +274,19 @@ public class Motor {
                 return (double) m_talonFX.getSelectedSensorPosition() / 2048.0;
 
             case VictorSPX:
-                return Double.NaN;
+                if (m_encoder != null)
+                    return m_encoder.getDistance();
+                else
+                    return Double.NaN;
 
             case CANSparkMax:
                 return m_canEncoder.getPosition();
+            
+            case Spark:
+                if (m_encoder != null)
+                    return m_encoder.getDistance();
+                else
+                    return Double.NaN;
             
             default:
                 return Double.NaN;
@@ -291,6 +374,10 @@ public class Motor {
             if(!m_canSparkMax.isFollower())
                 m_canSparkMax.setInverted(isInverted);
         }
+
+        if (m_motorType == MotorType.Spark){
+            m_spark.setInverted(isInverted);
+        }
     }
 
     public void resetEncoder(){
@@ -304,6 +391,12 @@ public class Motor {
 
         if (m_motorType == MotorType.CANSparkMax) {
             m_canEncoder.setPosition(0);
+        }
+
+        if (m_motorType == MotorType.VictorSPX || m_motorType == MotorType.Spark){
+            if (m_encoder != null){
+                m_encoder.reset();
+            }
         }
     }
 
@@ -339,6 +432,10 @@ public class Motor {
             
             case CANSparkMax:
                 m_canSparkMax.setIdleMode((state) ? IdleMode.kBrake : IdleMode.kCoast);
+                break;
+            
+            case Spark:
+                System.out.println("This motor type does not support brake mode configureation. Motor type: Spark");
                 break;
         }
     }

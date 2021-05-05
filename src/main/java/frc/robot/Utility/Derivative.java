@@ -4,6 +4,7 @@
 
 package frc.robot.Utility;
 
+import java.util.LinkedList;
 import java.util.Vector;
 import java.util.function.Supplier;
 
@@ -13,18 +14,23 @@ public class Derivative {
     private static Vector<Derivative> derivatives = new Vector<Derivative>();
 
     Supplier<Double> m_getValue;
-    double m_pastValue = 0;
+    LinkedList<Double> m_pastValues = new LinkedList<Double>();
     double m_derivative = 0;
 
     public Derivative(Supplier<Double> getValue){
         m_getValue = getValue;
+        for(int i = 0; i < 5; ++i){
+            m_pastValues.offer(0.0);
+        }
+        
         Derivative.derivatives.add(this);
     }
 
     public static void update(){
         for(Derivative d : derivatives){
-            d.m_derivative = (d.m_getValue.get() - d.m_derivative) / (20. / 1000.);
-            d.m_pastValue = d.m_getValue.get();
+            //System.out.println(d.m_getValue.get());
+            d.m_derivative = (d.m_getValue.get() - d.m_pastValues.poll()) / (5 * 20. / 1000.);
+            d.m_pastValues.offer(d.m_getValue.get());
         }
     }
 

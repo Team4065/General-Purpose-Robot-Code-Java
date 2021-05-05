@@ -7,8 +7,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Utility.Gyro;
+import frc.robot.Utility.Motor;
+import frc.robot.Utility.PathLoader;
+import frc.robot.Utility.RamseteCommandBuilder;
+import frc.robot.Utility.RamseteCommandBuilder2;
+import frc.robot.Utility.Motor.MotorType;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Drivetrain.ArcadeDrive;
+import frc.robot.commands.Drivetrain.ArcadeDrive2;
+import frc.robot.commands.Drivetrain.TankDrive;
+import frc.robot.subsystems.DifferentialDrivetrain;
+import frc.robot.subsystems.DifferentialDrivetrain2;
+import frc.robot.Utility.Motors.*;
 
 
 
@@ -23,7 +37,38 @@ import frc.robot.commands.ExampleCommand;
  */
 public class RobotContainer {
 
+  /*
+  Encoder m_leftEncoder = new Encoder(4, 5);
+  Encoder m_rightEncoder = new Encoder(6, 7);
+
+  DifferentialDrivetrain2 m_drivetrain = new DifferentialDrivetrain2(
+    new Spark(0, m_leftEncoder), 
+    new Spark(1, m_rightEncoder), 
+    new Spark[]{}, 
+    new Spark[]{},
+    0.070, 1./120., 0.141, false, false);
+
+  public Joystick m_controller = new Joystick(0);
+
+  public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Unnamed");
+  */
+
   public RobotContainer() {
+    /*
+    m_leftEncoder.setDistancePerPulse(1./12.);
+    m_rightEncoder.setDistancePerPulse(1./12.);
+
+    m_leftEncoder.setSamplesToAverage(100);
+    m_rightEncoder.setSamplesToAverage(100);
+
+    m_drivetrain.configLeftFeedForward(0.9118681578618956, 0.016578762513743402);
+    m_drivetrain.configRightFeedForward(0.8184047241402469, 0.017660280947935786);
+    
+    //m_drivetrain.configLeftPID(0.0, 0.005, 0);
+    //m_drivetrain.configRightPID(0.0, 0.005, 0);
+
+    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.5, 180));
+    */
     configureButtonBindings();
   }
 
@@ -44,6 +89,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    //return path.getCommand();
+    //return m_drivetrain.findLeftFeedForwardGains;
+    //return m_drivetrain.findRightFeedForwardGains;
     return new ExampleCommand();
   }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.Utility;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -21,15 +22,16 @@ public class PathLoader {
 
     /**
      * Loads the data from a path weaver file.
-     * @param pathDirectory The directory of the file with the desired Ramsete path.
+     * @param pathName The name of the pathweaver path.
      */
-    public PathLoader(String pathDirectory){
+    public PathLoader(String pathName){
         try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(pathDirectory);
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-          } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + pathDirectory, ex.getStackTrace());
-          }
+          Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/".concat(pathName.concat(".wpilib.json")));
+          System.out.println(trajectoryPath.toFile().exists());
+          trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+          DriverStation.reportError("Unable to open trajectory: " + "paths/".concat(pathName.concat(".wpilib.json")), ex.getStackTrace());
+        }
     }
 
     public Trajectory getTrajectory(){

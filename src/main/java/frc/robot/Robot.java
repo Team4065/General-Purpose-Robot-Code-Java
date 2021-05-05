@@ -15,8 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Utility.Derivative;
-import frc.robot.Utility.Gyro;
-import frc.robot.Utility.Motor;
+import frc.robot.Utility.Motors.Motor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,11 +25,13 @@ import frc.robot.Utility.Motor;
  * project.
  */
 public class Robot extends TimedRobot {
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
 
+ 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+
   }
 
   /**
@@ -55,6 +57,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Derivative.update();
+    Motor.updateAllMotors();
   }
 
   /**
@@ -94,8 +97,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-
-    
     
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
