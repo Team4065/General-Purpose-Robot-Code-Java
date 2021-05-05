@@ -28,16 +28,9 @@ import frc.robot.Utility.Motors.*;
  */
 public class RobotContainer {
 
-  
-  Encoder m_leftEncoder = new Encoder(4, 5);
-  Encoder m_rightEncoder = new Encoder(6, 7);
-
   DifferentialDrivetrain2 m_drivetrain = new DifferentialDrivetrain2(
-    new Spark(0, m_leftEncoder), 
-    new Spark(1, m_rightEncoder), 
-    new Spark[]{}, 
-    new Spark[]{},
-    0.070, 1./120., 0.141, false, false);
+  
+  );
 
   public Joystick m_controller = new Joystick(0);
 
@@ -45,15 +38,8 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-    
-    m_leftEncoder.setDistancePerPulse(1./12.);
-    m_rightEncoder.setDistancePerPulse(1./12.);
-
-    m_leftEncoder.setSamplesToAverage(100);
-    m_rightEncoder.setSamplesToAverage(100);
-
-    m_drivetrain.configLeftFeedForward(0.7850566808843115, 0.01652176759932694);
-    m_drivetrain.configRightFeedForward(0.7506262622110075, 0.01654768757649323);
+    m_drivetrain.configLeftFeedForward(0, 0);
+    m_drivetrain.configRightFeedForward(0, 0);
     
     //m_drivetrain.configLeftPID(0.0, 0.005, 0);
     //m_drivetrain.configRightPID(0.0, 0.005, 0);
@@ -80,8 +66,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return path.getCommand();
-    //return m_drivetrain.findLeftFeedForwardGains;
+    //return path.getCommand();
+    return m_drivetrain.findLeftFeedForwardGains;
     //return m_drivetrain.findRightFeedForwardGains;
     //return new ExampleCommand();
   }
