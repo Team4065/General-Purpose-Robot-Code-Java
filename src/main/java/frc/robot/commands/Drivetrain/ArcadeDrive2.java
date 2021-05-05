@@ -49,9 +49,11 @@ public class ArcadeDrive2 extends CommandBase {
     m_drivetrain.setLeftTarget(speed - rotation);
     m_drivetrain.setRightTarget(speed + rotation);
 
+    /*
     System.out.print(m_drivetrain.getLeftVelocity());
     System.out.print(" ");
     System.out.println(m_drivetrain.getRightVelocity());
+    */
   }
 
   // Called once the command ends or is interrupted.
