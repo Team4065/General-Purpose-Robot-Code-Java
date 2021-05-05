@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Utility.RamseteCommandBuilder2;
 import frc.robot.commands.Drivetrain.ArcadeDrive2;
+import frc.robot.commands.Drivetrain.ArcadeDrivePercent;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 import frc.robot.Utility.Motors.*;
 
@@ -29,8 +30,17 @@ import frc.robot.Utility.Motors.*;
 public class RobotContainer {
 
   DifferentialDrivetrain2 m_drivetrain = new DifferentialDrivetrain2(
-  
+  new TalonFX(canID),
+  new TalonFX(canID),
+  new Motor[]{new TalonFX()},
+  new Motor[]{new TalonFX()},
+  wheelDiameter,
+  gearRatio,
+  trackWidth,
+  areMotorsInverted,
+  areEncodersInverted
   );
+  //gear ratio: 
 
   public Joystick m_controller = new Joystick(0);
 
@@ -44,7 +54,7 @@ public class RobotContainer {
     //m_drivetrain.configLeftPID(0.0, 0.005, 0);
     //m_drivetrain.configRightPID(0.0, 0.005, 0);
 
-    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.5, 180));
+    m_drivetrain.setDefaultCommand(new ArcadeDrivePercent(m_drivetrain, m_controller));
     
     configureButtonBindings();
   }
