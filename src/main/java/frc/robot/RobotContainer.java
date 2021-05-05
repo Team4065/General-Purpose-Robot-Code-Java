@@ -67,7 +67,7 @@ public class RobotContainer {
     //m_drivetrain.configLeftPID(0.0, 0.005, 0);
     //m_drivetrain.configRightPID(0.0, 0.005, 0);
 
-    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.5, 180));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 1, 180));
     
     configureButtonBindings();
   }
