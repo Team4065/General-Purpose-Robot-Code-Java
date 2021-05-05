@@ -37,7 +37,7 @@ import frc.robot.Utility.Motors.*;
  */
 public class RobotContainer {
 
-  /*
+  
   Encoder m_leftEncoder = new Encoder(4, 5);
   Encoder m_rightEncoder = new Encoder(6, 7);
 
@@ -51,24 +51,24 @@ public class RobotContainer {
   public Joystick m_controller = new Joystick(0);
 
   public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Unnamed");
-  */
+  
 
   public RobotContainer() {
-    /*
+    
     m_leftEncoder.setDistancePerPulse(1./12.);
     m_rightEncoder.setDistancePerPulse(1./12.);
 
     m_leftEncoder.setSamplesToAverage(100);
     m_rightEncoder.setSamplesToAverage(100);
 
-    m_drivetrain.configLeftFeedForward(0.9118681578618956, 0.016578762513743402);
-    m_drivetrain.configRightFeedForward(0.8184047241402469, 0.017660280947935786);
+    m_drivetrain.configLeftFeedForward(0.7850566808843115, 0.01652176759932694);
+    m_drivetrain.configRightFeedForward(0.7506262622110075, 0.01654768757649323);
     
     //m_drivetrain.configLeftPID(0.0, 0.005, 0);
     //m_drivetrain.configRightPID(0.0, 0.005, 0);
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.5, 180));
-    */
+    
     configureButtonBindings();
   }
 
@@ -89,9 +89,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return path.getCommand();
+    return path.getCommand();
     //return m_drivetrain.findLeftFeedForwardGains;
     //return m_drivetrain.findRightFeedForwardGains;
-    return new ExampleCommand();
+    //return new ExampleCommand();
   }
 }

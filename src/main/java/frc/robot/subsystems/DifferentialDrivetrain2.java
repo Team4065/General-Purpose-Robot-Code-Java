@@ -227,7 +227,7 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
   }
   
 
-  
+
   protected void makeSpy(){
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     m_spyTab.put("Left Velocity", tab.add("Left Velocity", 0).getEntry());
