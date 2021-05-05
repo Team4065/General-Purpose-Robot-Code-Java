@@ -10,17 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Utility.Gyro;
-import frc.robot.Utility.Motor;
-import frc.robot.Utility.PathLoader;
-import frc.robot.Utility.RamseteCommandBuilder;
 import frc.robot.Utility.RamseteCommandBuilder2;
-import frc.robot.Utility.Motor.MotorType;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Drivetrain.ArcadeDrive;
 import frc.robot.commands.Drivetrain.ArcadeDrive2;
-import frc.robot.commands.Drivetrain.TankDrive;
-import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 import frc.robot.Utility.Motors.*;
 
@@ -67,7 +58,7 @@ public class RobotContainer {
     //m_drivetrain.configLeftPID(0.0, 0.005, 0);
     //m_drivetrain.configRightPID(0.0, 0.005, 0);
 
-    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 1, 180));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.5, 180));
     
     configureButtonBindings();
   }
