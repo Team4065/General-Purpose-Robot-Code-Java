@@ -91,9 +91,7 @@ public class Regression {
         }
         Double[] dependentVariable = new Double[velocityRecording.size()];
         controlledVariableRecording.toArray(dependentVariable);
-
-        //FilterOutliers.filterVelocityFeedForwardMeasurements(dependentVariable, velocityRecording.toArray(new Double[velocityRecording.size()]));
-
+        
         return new Double[]{Regression.performRegression(1, 1, func, independentVariables, dependentVariable)[0], slope};
     }
 

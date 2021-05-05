@@ -6,8 +6,6 @@
 
 package frc.robot.Utility;
 
-import java.util.Vector;
-
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

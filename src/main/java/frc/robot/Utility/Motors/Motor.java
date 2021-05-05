@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Utility.Derivative;
-import frc.robot.Utility.Motor.ControlMode;
 
 /** Add your docs here. */
 public abstract class Motor {
