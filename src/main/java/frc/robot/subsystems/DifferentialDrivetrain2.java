@@ -71,7 +71,7 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
       }, 0.005);
 
   /** Creates a new DifferentialDrivetrain2. */
-  public DifferentialDrivetrain2(Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves, double wheelDiameter, double gearRatio, double trackWidth, boolean isInverted, boolean areEncodersInverted) {
+  public DifferentialDrivetrain2(Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves, double wheelDiameter, double gearRatio, double trackWidth, boolean isForwardInverted, boolean areEncodersInverted) {
     m_leftMaster = leftMaster;
     m_leftSlaves = leftSlaves;
     for(Motor slave : m_leftSlaves){
@@ -89,7 +89,7 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
     m_wheelDiameter = wheelDiameter;
     m_gearRatio = gearRatio;
     m_areEncodersInverted = areEncodersInverted;
-    m_isInverted = isInverted;
+    m_isInverted = isForwardInverted;
     m_trackWidth = trackWidth;
 
     resetPose();
