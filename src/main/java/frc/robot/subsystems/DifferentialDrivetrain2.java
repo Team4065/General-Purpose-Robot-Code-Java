@@ -42,6 +42,8 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
   protected boolean m_isInverted;
   protected ControlMode m_controlMode = ControlMode.PercentOutput;
 
+
+  //Running this command will return the feed forward gains for the left side of the drivetrain.
   public FindFeedForwardGainsForVelocity findLeftFeedForwardGains = new FindFeedForwardGainsForVelocity(this,
       (Double voltage)->{
         setControlMode(ControlMode.Voltage);
@@ -54,7 +56,8 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
       ()->{
         return m_leftMaster.getAcceleration();
       }, 0.005);
-    
+
+  //Running this command will return the feed forward gains for the right side of the drivetrain.
   public FindFeedForwardGainsForVelocity findRightFeedForwardGains = new FindFeedForwardGainsForVelocity(this,
       (Double voltage)->{
         setControlMode(ControlMode.Voltage);
@@ -107,12 +110,6 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
     }
 
     m_odometry.update(Gyro.getRotation2d(), getLeftPosition(), getRightPosition());
-
-    /*
-    System.out.print(getPose().getX());
-    System.out.print(",");
-    System.out.println(getPose().getY());
-    */
   }
 
   public void setControlMode(ControlMode controlMode){

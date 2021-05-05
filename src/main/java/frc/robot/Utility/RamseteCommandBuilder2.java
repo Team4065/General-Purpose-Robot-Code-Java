@@ -20,7 +20,7 @@ public class RamseteCommandBuilder2 {
     /**
      * Makes the Ramsete command that is to be run.
      * @param drivetrain The drivetrain subsystem.
-     * @param path The PathLoader with the desired Ramsete path.
+     * @param path The name of the path you want to follow. (The file type is not part of the name)
      */
     public RamseteCommandBuilder2(DifferentialDrivetrain2 drivetrain, String pathName){
         command = new RamseteCommand(

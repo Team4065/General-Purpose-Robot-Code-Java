@@ -36,14 +36,14 @@ public abstract class Motor {
 
     protected boolean m_isInverted = false;
 
-
+    //The name explains what this does.
     public static void updateAllMotors(){
         for(Motor motor : allMotors){
             motor.update();
         }
     }
 
-    protected abstract void update();
+    protected abstract void update();//Updates the motor so that they actually do stuff.
 
 
     public void set(ControlMode controlMode, double value){
@@ -79,24 +79,26 @@ public abstract class Motor {
         }
     }
 
-    public abstract void follow(Motor master);
-    public abstract void follow(Motor master, boolean opposeMaster);
-    public abstract void setInversion(boolean isInverted);
-    public abstract void resetEncoder();
-    public abstract void enableBrakeMode();
-    public abstract void disableBrakeMode();
+    public abstract void follow(Motor master);//Sets the output of this motor to the voltage of the master. The follower spins in the same direction as the master, unless oppose master is true. SetInversion does not affect followers.
+    public abstract void follow(Motor master, boolean opposeMaster);//Sets the output of this motor to the voltage of the master. The follower spins in the same direction as the master, unless oppose master is true. SetInversion does not affect followers.
+    public abstract void setInversion(boolean isInverted);//Inverts the direction of the motor and the encoder. If the encoder reads negative with a positive output, the encoder will stil read negative when the motor is given a positive output after being inverted.
+    public abstract void resetEncoder();//Sets the encoder position values to 0.
+    public abstract void enableBrakeMode();//Causes the motor to apply back emf when output set to 0. (motor does not spin due to inertia)
+    public abstract void disableBrakeMode();//prevents the motor from appling back emf when output set to 0. (motor spins due to inertia)
 
+    //This configures the gains used to get an accuracy velocity from the motor
     public void configFeedforward(double ks, double kv){
         configFeedforward(ks, kv, 0);
     }
 
+    //This configures the gains used to get an accuracy velocity from the motor
     public void configFeedforward(double ks, double kv, double ka){
         m_feedforward = new SimpleMotorFeedforward(ks, kv, ka);
         m_isFeedforwardConfigured = true;
     }
 
 
-    public abstract void setKP(double kp);
-    public abstract void setKI(double ki);
-    public abstract void setKD(double kd);
+    public abstract void setKP(double kp);//Sets the propotional gain of the motor's velocity PID loop.
+    public abstract void setKI(double ki);//Sets the integral gain of the motor's velocity PID loop.
+    public abstract void setKD(double kd);//Sets the derivative gain of the motor's velocity PID loop.
 }

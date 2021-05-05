@@ -63,14 +63,14 @@ public class TalonSRX extends Motor {
         if(!m_hasEncoder){
             return Double.NaN;
         }
-        return (double)m_motor.getSelectedSensorPosition() / 4096.0;
+        return (double)m_motor.getSelectedSensorPosition() / 4096.0 * (m_isInverted ? -1.0 : 1.0);
     }
 
     public double getVelocity(){
         if(!m_hasEncoder){
             return Double.NaN;
         }
-        return (double)m_motor.getSelectedSensorVelocity() / 4096.0;
+        return (double)m_motor.getSelectedSensorVelocity() / 4096.0 * (m_isInverted ? -1.0 : 1.0);
     }
 
 

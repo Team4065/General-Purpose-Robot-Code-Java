@@ -5,10 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//this is an example of code that was not fully thought out before creation
-//features that were not intended were added later in the process
-//which made the code more convoluted
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
