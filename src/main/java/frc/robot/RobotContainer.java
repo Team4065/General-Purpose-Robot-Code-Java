@@ -30,15 +30,15 @@ import frc.robot.Utility.Motors.*;
 public class RobotContainer {
 
   DifferentialDrivetrain2 m_drivetrain = new DifferentialDrivetrain2(
-  new TalonFX(canID),
-  new TalonFX(canID),
-  new Motor[]{new TalonFX()},
-  new Motor[]{new TalonFX()},
-  wheelDiameter,
-  gearRatio,
-  trackWidth,
-  areMotorsInverted,
-  areEncodersInverted
+  new TalonFX(2),
+  new TalonFX(1),
+  new Motor[]{new TalonFX(3)},
+  new Motor[]{new TalonFX(16)},
+  0.1016,
+  1 / 9.09,
+  0.6096,
+  false,
+  false
   );
   //gear ratio: 
 
