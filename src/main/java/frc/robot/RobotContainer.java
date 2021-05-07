@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Utility.RamseteCommandBuilder2;
 import frc.robot.commands.Drivetrain.ArcadeDrive2;
 import frc.robot.commands.Drivetrain.ArcadeDrivePercent;
+import frc.robot.commands.Drivetrain.FindTrackWidth;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 import frc.robot.Utility.Motors.*;
 
@@ -35,26 +36,27 @@ public class RobotContainer {
   new Motor[]{new TalonFX(3)},
   new Motor[]{new TalonFX(16)},
   0.1016,
-  1 / 9.09,
-  0.6096,
-  false,
-  false
+  1.0 / 9.09,
+  0.7316606976086597,
+  true,
+  true
   );
   //gear ratio: 
 
   public Joystick m_controller = new Joystick(0);
 
-  public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Path");
+  public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Forward");
   
 
   public RobotContainer() {
-    m_drivetrain.configLeftFeedForward(0, 0);
-    m_drivetrain.configRightFeedForward(0, 0);
-    
-    //m_drivetrain.configLeftPID(0.0, 0.005, 0);
-    //m_drivetrain.configRightPID(0.0, 0.005, 0);
+    m_drivetrain.configLeftFeedForward(-0.815858358638, -1.0991544081);
+    m_drivetrain.configRightFeedForward(-0.813737121479, -1.09103641734);
+    m_drivetrain.enableBrakes();
+    //m_drivetrain.configLeftPID(0.0, -0.05, 0);
+    //m_drivetrain.configRightPID(0.0, -0.05, 0);
 
-    m_drivetrain.setDefaultCommand(new ArcadeDrivePercent(m_drivetrain, m_controller));
+    //m_drivetrain.setDefaultCommand(new ArcadeDrivePercent(m_drivetrain, m_controller));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.2, 10));
     
     configureButtonBindings();
   }
@@ -76,8 +78,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return path.getCommand();
-    return m_drivetrain.findLeftFeedForwardGains;
+    //return new FindTrackWidth(m_drivetrain);
+    return path.getCommand();
+    //return m_drivetrain.findLeftFeedForwardGains;
     //return m_drivetrain.findRightFeedForwardGains;
     //return new ExampleCommand();
   }

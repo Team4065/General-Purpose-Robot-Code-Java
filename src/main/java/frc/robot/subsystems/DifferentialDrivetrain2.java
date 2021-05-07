@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Utility.Gyro;
 import frc.robot.Utility.Motors.Motor;
 import frc.robot.Utility.Motors.Motor.ControlMode;
@@ -53,7 +54,7 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
       }, 
       ()->{
         return m_leftMaster.getAcceleration();
-      }, 0.005);
+      }, 0.01);
     
   public FindFeedForwardGainsForVelocity findRightFeedForwardGains = new FindFeedForwardGainsForVelocity(this,
       (Double voltage)->{
@@ -66,7 +67,7 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
       }, 
       ()->{
         return m_rightMaster.getAcceleration();
-      }, 0.005);
+      }, 0.01);
 
   /** Creates a new DifferentialDrivetrain2. */
   public DifferentialDrivetrain2(Motor leftMaster, Motor rightMaster, Motor[] leftSlaves, Motor[] rightSlaves, double wheelDiameter, double gearRatio, double trackWidth, boolean areMotorsInverted, boolean areEncodersInverted) {
@@ -90,6 +91,8 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
     m_isInverted = areMotorsInverted;
     m_trackWidth = trackWidth;
 
+    makeSpy();
+
     resetPose();
   }
 
@@ -97,6 +100,10 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
   public void periodic() {
     double leftTarget = (m_isInverted ? -1 : 1) * m_leftTarget;
     double rightTarget = (m_isInverted ? -1 : 1) * m_rightTarget;
+
+    if(Constants.IS_SPY_ENABLED){
+      reportSpy();
+    }
 
     if(m_controlMode == ControlMode.Velocity){
       m_leftMaster.set(ControlMode.Velocity, leftTarget / 2 / Math.PI / (m_wheelDiameter / 2) / m_gearRatio * ((m_areEncodersInverted) ? -1 : 1));
@@ -112,6 +119,16 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
     System.out.print(getPose().getX());
     System.out.print(",");
     System.out.println(getPose().getY());
+    */
+    /*
+    System.out.print(getLeftVelocity());
+    System.out.print(",");
+    System.out.println(getRightVelocity());
+    */
+    /*
+    System.out.print(m_leftTarget - getLeftVelocity());
+    System.out.print(",");
+    System.out.println(m_rightTarget - getRightVelocity());
     */
   }
 
@@ -133,27 +150,27 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
 
 
   public double getLeftPosition(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getPosition() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getPosition() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
   public double getRightPosition(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getPosition() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getPosition() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
   public double getLeftVelocity(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getVelocity() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getVelocity() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
   public double getRightVelocity(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getVelocity() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getVelocity() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
   public double getLeftAcceleration(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getAcceleration() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_leftMaster.getAcceleration() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
   public double getRightAcceleration(){
-    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getAcceleration() * m_gearRatio * (m_wheelDiameter / 2);
+    return ((m_areEncodersInverted) ? -1 : 1) * 2 * Math.PI * m_rightMaster.getAcceleration() * m_gearRatio * (m_wheelDiameter / 2.0);
   }
 
 

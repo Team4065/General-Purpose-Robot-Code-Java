@@ -21,6 +21,7 @@ public class TalonFX extends Motor {
         if(m_motor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor) == ErrorCode.SensorNotPresent){
             m_hasEncoder = false;
         }else{
+            System.out.println("It has encoders");
             m_hasEncoder = true;
         }
         
