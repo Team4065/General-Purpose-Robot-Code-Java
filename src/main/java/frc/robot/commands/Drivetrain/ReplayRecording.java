@@ -4,56 +4,41 @@
 
 package frc.robot.commands.Drivetrain;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Utility.Gyro;
 import frc.robot.Utility.Motors.Motor.ControlMode;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 
-public class ArcadeDrive2 extends CommandBase {
+public class ReplayRecording extends CommandBase {
   DifferentialDrivetrain2 m_drivetrain;
-  Joystick m_controller;
-  double m_maxSpeed;
-  double m_maxRotationalSpeed;
-
-  /** Creates a new ArcadeDrive2. */
-  public ArcadeDrive2(DifferentialDrivetrain2 drivetrain, Joystick controller, double maxSpeed, double maxRotationalSpeed) {
+  Double[] m_leftRecording;
+  Double[] m_rightRecording;
+  int counter;
+  
+  /** Creates a new ReplayRecording. */
+  public ReplayRecording(DifferentialDrivetrain2 drivetrain, Double[] leftRecording, Double[] rightRecording) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
-    m_controller = controller;
-    m_maxSpeed = maxSpeed;
-    m_maxRotationalSpeed = maxRotationalSpeed;
+    m_leftRecording = leftRecording;
+    m_rightRecording = rightRecording;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    counter = 0;
     m_drivetrain.setControlMode(ControlMode.Velocity);
+    m_drivetrain.setLeftTarget(0);
+    m_drivetrain.setRightTarget(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = -m_controller.getRawAxis(1);
-    double rotation = -m_controller.getRawAxis(4);
+    m_drivetrain.setLeftTarget(m_leftRecording[counter]);
+    m_drivetrain.setLeftTarget(m_rightRecording[counter]);
 
-    if(Math.abs(speed) < 0.05)
-      speed = 0;
-    if(Math.abs(rotation) < 0.05)
-      rotation = 0;
-
-    speed *= m_maxSpeed;
-    rotation *= Math.toRadians(m_maxRotationalSpeed) * m_drivetrain.getTrackWidth() / 2;
-
-    m_drivetrain.setLeftTarget(speed - rotation);
-    m_drivetrain.setRightTarget(speed + rotation);
-
-    /*
-    System.out.print(m_drivetrain.getLeftVelocity());
-    System.out.print(" ");
-    System.out.println(m_drivetrain.getRightVelocity());
-    */
+    ++counter;
   }
 
   // Called once the command ends or is interrupted.
@@ -67,6 +52,6 @@ public class ArcadeDrive2 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return counter >= m_leftRecording.length;
   }
 }

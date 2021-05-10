@@ -10,11 +10,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Utility.RamseteCommandBuilder2;
 import frc.robot.commands.Drivetrain.ArcadeDrive2;
 import frc.robot.commands.Drivetrain.ArcadeDrivePercent;
 import frc.robot.commands.Drivetrain.FindTrackWidth;
+import frc.robot.commands.Lift.WinchDown;
 import frc.robot.subsystems.DifferentialDrivetrain2;
+import frc.robot.subsystems.Lift;
 import frc.robot.Utility.Motors.*;
 
 
@@ -42,6 +46,8 @@ public class RobotContainer {
   true
   );
 
+  Lift m_lift = new Lift();
+
   public Joystick m_controller = new Joystick(0);
 
   public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Forward");
@@ -67,7 +73,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    new JoystickButton(m_controller, 0).whileHeld(new WinchDown(m_lift));
   }
 
 

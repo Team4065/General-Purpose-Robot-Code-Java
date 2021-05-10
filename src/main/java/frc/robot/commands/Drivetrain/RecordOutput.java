@@ -4,32 +4,36 @@
 
 package frc.robot.commands.Drivetrain;
 
+import java.util.Vector;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Utility.Gyro;
 import frc.robot.Utility.Motors.Motor.ControlMode;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 
-public class ArcadeDrive2 extends CommandBase {
+public class RecordOutput extends CommandBase {
   DifferentialDrivetrain2 m_drivetrain;
   Joystick m_controller;
   double m_maxSpeed;
   double m_maxRotationalSpeed;
 
-  /** Creates a new ArcadeDrive2. */
-  public ArcadeDrive2(DifferentialDrivetrain2 drivetrain, Joystick controller, double maxSpeed, double maxRotationalSpeed) {
+  Vector<Double> m_leftRecording;
+  Vector<Double> m_rightRecording;
+
+  /** Creates a new RecordOutput. */
+  public RecordOutput(DifferentialDrivetrain2 drivetrain, Joystick controller, double maxSpeed, double maxRotationalSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
     m_controller = controller;
-    m_maxSpeed = maxSpeed;
-    m_maxRotationalSpeed = maxRotationalSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_drivetrain.setControlMode(ControlMode.Velocity);
+    m_leftRecording = new Vector<Double>();
+    m_rightRecording = new Vector<Double>();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,11 +53,8 @@ public class ArcadeDrive2 extends CommandBase {
     m_drivetrain.setLeftTarget(speed - rotation);
     m_drivetrain.setRightTarget(speed + rotation);
 
-    /*
-    System.out.print(m_drivetrain.getLeftVelocity());
-    System.out.print(" ");
-    System.out.println(m_drivetrain.getRightVelocity());
-    */
+    m_leftRecording.add(speed - rotation);
+    m_rightRecording.add(speed + rotation);
   }
 
   // Called once the command ends or is interrupted.
@@ -62,6 +63,30 @@ public class ArcadeDrive2 extends CommandBase {
     m_drivetrain.setControlMode(ControlMode.PercentOutput);
     m_drivetrain.setLeftTarget(0);
     m_drivetrain.setRightTarget(0);
+    
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("# Left");
+    for(Double value : m_leftRecording){
+      System.out.print(value);
+      System.out.println(",");
+    }
+    System.out.println("# Left");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("# Right");
+    for(Double value : m_rightRecording){
+      System.out.print(value);
+      System.out.println(",");
+    }
+    System.out.println("# Right");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
+    System.out.println("#");
   }
 
   // Returns true when the command should end.
