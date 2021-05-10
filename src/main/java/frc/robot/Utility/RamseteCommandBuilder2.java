@@ -7,6 +7,7 @@ package frc.robot.Utility;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
@@ -27,7 +28,7 @@ public class RamseteCommandBuilder2 {
             (new PathLoader(pathName)).getTrajectory(), 
             drivetrain::getPose,
             new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
-            Constants.DIFFERENTIAL_DRIVE_KINEMATICS,
+            new DifferentialDriveKinematics(drivetrain.getTrackWidth()),
             drivetrain::setTankDriveVelocity,
             drivetrain);
         m_drivetrain = drivetrain;
