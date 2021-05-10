@@ -108,10 +108,15 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
 
     m_odometry.update(Gyro.getRotation2d(), getLeftPosition(), getRightPosition());
 
-    /*
+    
     System.out.print(getPose().getX());
     System.out.print(",");
     System.out.println(getPose().getY());
+    
+    /*
+    System.out.print(m_leftTarget - getLeftVelocity());
+    System.out.print(",");
+    System.out.println(m_rightTarget - getRightVelocity());
     */
   }
 

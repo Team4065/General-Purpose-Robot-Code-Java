@@ -41,7 +41,7 @@ public class RobotContainer {
 
   public Joystick m_controller = new Joystick(0);
 
-  public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Path");
+  public RamseteCommandBuilder2 path = new RamseteCommandBuilder2(m_drivetrain, "Forward");
   
 
   public RobotContainer() {
