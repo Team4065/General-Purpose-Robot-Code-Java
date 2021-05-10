@@ -4,42 +4,47 @@
 
 package frc.robot.commands.Drivetrain;
 
-
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.DifferentialDrivetrain.ControlMode;
+import frc.robot.Utility.Motors.Motor.ControlMode;
+import frc.robot.subsystems.DifferentialDrivetrain2;
 
-public class ToPosition extends CommandBase {
-  DifferentialDrivetrain m_drivetrain;
-  PIDController m_PIDLeft = new PIDController(5, 0, 0);
-  PIDController m_PIDRight = new PIDController(5, 0, 0);
-  /** Creates a new ToPosition. */
-  public ToPosition(DifferentialDrivetrain drivetrain) {
+public class ReplayRecording extends CommandBase {
+  DifferentialDrivetrain2 m_drivetrain;
+  Double[] m_leftRecording;
+  Double[] m_rightRecording;
+  int counter;
+  
+  /** Creates a new ReplayRecording. */
+  public ReplayRecording(DifferentialDrivetrain2 drivetrain, Double[] leftRecording, Double[] rightRecording) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
+    m_leftRecording = leftRecording;
+    m_rightRecording = rightRecording;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    counter = 0;
     m_drivetrain.setControlMode(ControlMode.Velocity);
-    m_drivetrain.resetEncoders();
+    m_drivetrain.setLeftTarget(0);
+    m_drivetrain.setRightTarget(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = m_PIDLeft.calculate(m_drivetrain.getLeftPosition(), 1);
-    double right = m_PIDRight.calculate(m_drivetrain.getRightPosition(), 1);
-    m_drivetrain.setLeftTarget(left);
-    m_drivetrain.setRightTarget(right);
+    m_drivetrain.setLeftTarget(m_leftRecording[counter]);
+    m_drivetrain.setRightTarget(m_rightRecording[counter]);
+
+    ++counter;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_drivetrain.setControlMode(ControlMode.PercentOutput);
     m_drivetrain.setLeftTarget(0);
     m_drivetrain.setRightTarget(0);
   }
@@ -47,6 +52,6 @@ public class ToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_PIDLeft.atSetpoint() && m_PIDRight.atSetpoint();
+    return counter >= m_leftRecording.length;
   }
 }

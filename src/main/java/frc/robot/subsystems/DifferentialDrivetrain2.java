@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Utility.Gyro;
 import frc.robot.Utility.Motors.Motor;
 import frc.robot.Utility.Motors.Motor.ControlMode;
@@ -99,6 +100,10 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
   public void periodic() {
     double leftTarget = (m_isInverted ? -1 : 1) * m_leftTarget;
     double rightTarget = (m_isInverted ? -1 : 1) * m_rightTarget;
+
+    if(Constants.IS_SPY_ENABLED){
+      reportSpy();
+    }
 
     if(m_controlMode == ControlMode.Velocity){
       m_leftMaster.set(ControlMode.Velocity, leftTarget / 2 / Math.PI / (m_wheelDiameter / 2) / m_gearRatio * ((m_areEncodersInverted) ? -1 : 1));

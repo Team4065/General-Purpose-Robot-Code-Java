@@ -45,7 +45,7 @@ public class FindFeedForwardGainsForVelocity extends CommandBase {
   @Override
   public void execute() {
     m_set.accept(m_value);
-    if(m_getVelocity.get() > 0.000000001){
+    if(Math.abs(m_getVelocity.get()) > 0.000000001){
       m_values.add(m_value);
       m_velocities.add(m_getVelocity.get());
       /*
