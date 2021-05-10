@@ -7,6 +7,8 @@ package frc.robot.Utility;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
@@ -17,6 +19,16 @@ public class RamseteCommandBuilder2 {
     private RamseteCommand command;
     private DifferentialDrivetrain2 m_drivetrain;
     private Trajectory m_trajectory;
+
+
+    RamseteController disabledRamsete = new RamseteController() {
+        @Override
+        public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+                double angularVelocityRefRadiansPerSecond) {
+            return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+        }
+    };
+
     /**
      * Makes the Ramsete command that is to be run.
      * @param drivetrain The drivetrain subsystem.
@@ -26,7 +38,8 @@ public class RamseteCommandBuilder2 {
         command = new RamseteCommand(
             (new PathLoader(pathName)).getTrajectory(), 
             drivetrain::getPose,
-            new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
+            disabledRamsete,
+            //new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
             Constants.DIFFERENTIAL_DRIVE_KINEMATICS,
             drivetrain::setTankDriveVelocity,
             drivetrain);
