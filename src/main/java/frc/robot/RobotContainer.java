@@ -41,7 +41,6 @@ public class RobotContainer {
   true,
   true
   );
-  //gear ratio: 
 
   public Joystick m_controller = new Joystick(0);
 
