@@ -87,7 +87,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return ReplayRecording(m_drivetrain, new Double[]{
+    return new ReplayRecording(m_drivetrain, new Double[]{
 
     }, new Double[]{
 
