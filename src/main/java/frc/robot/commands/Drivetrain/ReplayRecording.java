@@ -36,7 +36,7 @@ public class ReplayRecording extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.setLeftTarget(m_leftRecording[counter]);
-    m_drivetrain.setLeftTarget(m_rightRecording[counter]);
+    m_drivetrain.setRightTarget(m_rightRecording[counter]);
 
     ++counter;
   }

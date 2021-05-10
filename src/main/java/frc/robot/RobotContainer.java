@@ -16,6 +16,8 @@ import frc.robot.Utility.RamseteCommandBuilder2;
 import frc.robot.commands.Drivetrain.ArcadeDrive2;
 import frc.robot.commands.Drivetrain.ArcadeDrivePercent;
 import frc.robot.commands.Drivetrain.FindTrackWidth;
+import frc.robot.commands.Drivetrain.RecordOutput;
+import frc.robot.commands.Drivetrain.ReplayRecording;
 import frc.robot.commands.Lift.WinchDown;
 import frc.robot.subsystems.DifferentialDrivetrain2;
 import frc.robot.subsystems.Lift;
@@ -61,7 +63,8 @@ public class RobotContainer {
     //m_drivetrain.configRightPID(0.0, -0.05, 0);
 
     //m_drivetrain.setDefaultCommand(new ArcadeDrivePercent(m_drivetrain, m_controller));
-    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.2, 10));
+    //m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 0.2, 10));
+    m_drivetrain.setDefaultCommand(new RecordOutput(m_drivetrain, m_controller, 0.2, 10));
     
     configureButtonBindings();
   }
@@ -83,8 +86,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    
+    return ReplayRecording(m_drivetrain, new Double[]{
+
+    }, new Double[]{
+
+    });
+    //return path.getCommand();
     //return new FindTrackWidth(m_drivetrain);
-    return path.getCommand();
     //return m_drivetrain.findLeftFeedForwardGains;
     //return m_drivetrain.findRightFeedForwardGains;
     //return new ExampleCommand();

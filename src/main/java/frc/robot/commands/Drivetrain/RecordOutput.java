@@ -26,6 +26,8 @@ public class RecordOutput extends CommandBase {
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
     m_controller = controller;
+    m_maxSpeed = maxSpeed;
+    m_maxRotationalSpeed = maxRotationalSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -63,25 +65,23 @@ public class RecordOutput extends CommandBase {
     m_drivetrain.setControlMode(ControlMode.PercentOutput);
     m_drivetrain.setLeftTarget(0);
     m_drivetrain.setRightTarget(0);
-    
+
     System.out.println("#");
     System.out.println("#");
     System.out.println("#");
     System.out.println("#");
     System.out.println("# Left");
-    for(Double value : m_leftRecording){
-      System.out.print(value);
-      System.out.println(",");
-    }
+
+    System.out.println(m_leftRecording.toString());
+
     System.out.println("# Left");
     System.out.println("#");
     System.out.println("#");
     System.out.println("#");
     System.out.println("# Right");
-    for(Double value : m_rightRecording){
-      System.out.print(value);
-      System.out.println(",");
-    }
+
+    System.out.println(m_rightRecording.toString());
+
     System.out.println("# Right");
     System.out.println("#");
     System.out.println("#");
