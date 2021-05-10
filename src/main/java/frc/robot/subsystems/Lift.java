@@ -9,12 +9,14 @@ import frc.robot.Utility.Motors.TalonFX;
 import frc.robot.Utility.Motors.Motor.ControlMode;
 
 public class Lift extends SubsystemBase {
-  TalonFX m_leftMotor = new TalonFX(0);
-  TalonFX m_rightMotor = new TalonFX(0);
+  TalonFX m_leftMotor = new TalonFX(12);
+  TalonFX m_rightMotor = new TalonFX(13);
 
   /** Creates a new Lift. */
   public Lift() {
     m_rightMotor.follow(m_leftMotor, true);
+    m_leftMotor.disableBrakeMode();
+    m_rightMotor.disableBrakeMode();
   }
 
   @Override

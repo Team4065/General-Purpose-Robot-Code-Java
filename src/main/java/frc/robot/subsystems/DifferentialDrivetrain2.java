@@ -125,11 +125,11 @@ public class DifferentialDrivetrain2 extends SubsystemBase {
     System.out.print(",");
     System.out.println(getRightVelocity());
     */
-    
+    /*
     System.out.print(m_leftTarget - getLeftVelocity());
     System.out.print(",");
     System.out.println(m_rightTarget - getRightVelocity());
-    
+    */
   }
 
   public void setControlMode(ControlMode controlMode){

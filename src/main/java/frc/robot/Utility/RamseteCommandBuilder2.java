@@ -38,8 +38,8 @@ public class RamseteCommandBuilder2 {
         command = new RamseteCommand(
             (new PathLoader(pathName)).getTrajectory(), 
             drivetrain::getPose,
-            disabledRamsete,
-            //new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
+            //disabledRamsete,
+            new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
             Constants.DIFFERENTIAL_DRIVE_KINEMATICS,
             drivetrain::setTankDriveVelocity,
             drivetrain);

@@ -7,11 +7,10 @@ package frc.robot.commands.Lift;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Lift;
 
-public class WinchDown extends CommandBase {
+public class WinchUp extends CommandBase {
   Lift m_lift;
-  
-  /** Creates a new WinchDown. */
-  public WinchDown(Lift lift) {
+  /** Creates a new WinchUp. */
+  public WinchUp(Lift lift) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lift);
     m_lift = lift;
@@ -24,8 +23,8 @@ public class WinchDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("down");
-    m_lift.forward();
+    System.out.println("up");
+    m_lift.backward();
   }
 
   // Called once the command ends or is interrupted.
