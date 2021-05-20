@@ -38,18 +38,18 @@ import frc.robot.Utility.Motors.*;
 public class RobotContainer {
 
   DifferentialDrivetrain2 m_drivetrain = new DifferentialDrivetrain2(
-  new TalonFX(2),
-  new TalonFX(1),
-  new Motor[]{new TalonFX(3)},
-  new Motor[]{new TalonFX(16)},
-  0.1016,
-  1.0 / 9.09,
-  0.7316606976086597,
+  new CANSparkMax(1),
+  new CANSparkMax(3),
+  new Motor[]{new CANSparkMax(2)},
+  new Motor[]{new CANSparkMax(4)},
+  0.1524,
+  1.0 / 12.15,
+  0.5969,
   true,
   true
   );
 
-  Lift m_lift = new Lift();
+  //Lift m_lift = new Lift();
 
   public Joystick m_controller = new Joystick(0);
 
@@ -57,14 +57,14 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-    m_drivetrain.configLeftFeedForward(-0.803185635849534, -0.11046536533522043);
-    m_drivetrain.configRightFeedForward(-0.7832641796332552, -0.10978992843945484);
+    m_drivetrain.configLeftFeedForward(0,0);
+    m_drivetrain.configRightFeedForward(0,0);
     m_drivetrain.enableBrakes();
     //m_drivetrain.configLeftPID(0.0, -0.05, 0);
     //m_drivetrain.configRightPID(0.0, -0.05, 0);
 
     //m_drivetrain.setDefaultCommand(new ArcadeDrivePercent(m_drivetrain, m_controller));
-    m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 5, 360));
+    //m_drivetrain.setDefaultCommand(new ArcadeDrive2(m_drivetrain, m_controller, 5, 360));
     //m_drivetrain.setDefaultCommand(new RecordOutput(m_drivetrain, m_controller, 0.2, 10));
     
     configureButtonBindings();
@@ -77,8 +77,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_controller, 1).whileHeld(new WinchDown(m_lift));
-    new JoystickButton(m_controller, 2).whileHeld(new WinchUp(m_lift));
+    //new JoystickButton(m_controller, 1).whileHeld(new WinchDown(m_lift));
+    //new JoystickButton(m_controller, 2).whileHeld(new WinchUp(m_lift));
   }
 
 
@@ -95,9 +95,9 @@ public class RobotContainer {
       0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.015625, 0.035937500000000004, 0.0484375, 0.0625, 0.0703125, 0.08281250000000001, 0.09843750000000001, 0.11093750000000001, 0.14375000000000002, 0.17500000000000002, 0.1921875, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.178125, 0.15000000000000002, 0.07665644943135722, 0.029318401389608346, -0.018251170673014974, -0.03103694090354856, -0.03416194090354856, -0.035724440903548565, -0.035724440903548565, -0.035724440903548565, -0.035724440903548565, -0.035724440903548565, -0.035724440903548565, -0.03728694090354856, -0.04197444090354856, -0.043536940903548565, -0.043536940903548565, -0.043536940903548565, -0.043536940903548565, -0.04509944090354856, -0.04822444090354856, -0.04822444090354856, -0.04822444090354856, -0.035724440903548565, -0.03259944090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.03103694090354856, -0.02791194090354856, -0.026349440903548557, -0.02166194090354856, -0.016974440903548563, -0.007599440903548561, 0.004900559096451443, 0.01740055909645144, 0.05177555909645144, 0.07521305909645144, 0.1171835780635381, 0.1506906501261614, 0.14908844500160173, 0.15937500000000002, 0.15937500000000002, 0.15937500000000002, 0.1765625, 0.1765625, 0.18281250000000002, 0.18281250000000002, 0.184375, 0.184375, 0.15781250000000002, 0.15781250000000002, 0.05625, 0.0125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  
     });
     */
-    return path.getCommand();
+    //return path.getCommand();
     //return new FindTrackWidth(m_drivetrain);
-    //return m_drivetrain.findLeftFeedForwardGains;
+    return m_drivetrain.findLeftFeedForwardGains;
     //return m_drivetrain.findRightFeedForwardGains;
     //return new ExampleCommand();
   }

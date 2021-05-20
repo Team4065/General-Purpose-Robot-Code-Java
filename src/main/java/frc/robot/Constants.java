@@ -19,7 +19,7 @@ public class Constants {
 
 
     //Ramsete
-    public static final double ROBOT_TRACKWIDTH = 0.7316606976086597;
+    public static final double ROBOT_TRACKWIDTH = 0.5969;
     public static final double RAMSETE_B = 2.0;
     public static final double RAMSETE_ZETA = 0.7;
     //public static final double KS_VOLTS = 1.1232140651648732;
