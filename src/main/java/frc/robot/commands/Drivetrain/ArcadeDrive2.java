@@ -46,6 +46,7 @@ public class ArcadeDrive2 extends CommandBase {
     speed *= m_maxSpeed;
     rotation *= Math.toRadians(m_maxRotationalSpeed) * m_drivetrain.getTrackWidth() / 2;
 
+    System.out.println(speed);
     m_drivetrain.setLeftTarget(speed - rotation);
     m_drivetrain.setRightTarget(speed + rotation);
 

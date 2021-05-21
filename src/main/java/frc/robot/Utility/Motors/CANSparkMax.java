@@ -66,14 +66,14 @@ public class CANSparkMax extends Motor{
         if(!m_hasEncoder){
             return Double.NaN;
         }
-        return m_encoder.getPosition() * (m_isInverted ? -1.0 : 1.0);
+        return m_encoder.getPosition();
     }
 
     public double getVelocity(){
         if(!m_hasEncoder){
             return Double.NaN;
         }
-        return m_encoder.getVelocity() / 60.0  * (m_isInverted ? -1.0 : 1.0);
+        return m_encoder.getVelocity() / 60.0;
     }
 
     public void follow(Motor master){

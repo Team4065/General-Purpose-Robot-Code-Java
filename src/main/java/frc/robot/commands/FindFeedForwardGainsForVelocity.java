@@ -46,13 +46,18 @@ public class FindFeedForwardGainsForVelocity extends CommandBase {
   public void execute() {
     m_set.accept(m_value);
     if(Math.abs(m_getVelocity.get()) > 0.000000001){
-      m_values.add(m_value);
-      m_velocities.add(m_getVelocity.get());
+      if(m_velocities.size() == 0 || Math.abs(m_velocities.get(m_velocities.size() - 1) - m_getVelocity.get()) >= 0.1){
+        m_values.add(m_value);
+        m_velocities.add(m_getVelocity.get());
+        
+        System.out.printf("%.8f", m_getVelocity.get());
+        System.out.print(",");
+        System.out.printf("%.8f", m_value);
+        System.out.println("");
+      }
       
-      System.out.printf("%.8f", m_getVelocity.get());
-      System.out.print(",");
-      System.out.printf("%.8f", m_value);
-      System.out.println("");
+      
+      
       
     }
     

@@ -29,8 +29,8 @@ public class ArcadeDrivePercent extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = -m_controller.getRawAxis(1);
-    double rotation = -m_controller.getRawAxis(4);
+    double speed = 0.25 * -m_controller.getRawAxis(1);
+    double rotation = 0.25 * -m_controller.getRawAxis(4);
 
     m_drivetrain.setLeftTarget(speed - rotation);
     m_drivetrain.setRightTarget(speed + rotation);
