@@ -68,7 +68,7 @@ public class TalonFX extends Motor {
         if(!m_hasEncoder){
             return Double.NaN;
         }
-        return (double)m_motor.getSelectedSensorVelocity() / 2048.0 * (m_isInverted ? -1.0 : 1.0);
+        return (double)m_motor.getSelectedSensorVelocity() / 2048.0 / (100.0 / 1000.0) * (m_isInverted ? -1.0 : 1.0);
     }
 
     public void follow(Motor master){
